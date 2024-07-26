@@ -17,6 +17,9 @@ sudo passwd adibf
 # New password:
 # Retype new password:
 # passwd: password updated successfully
+
+sudo systemctl start ssh
+sudo systemctl enable ssh
 ```
 
 ### 2. (On host machine) Create SSH key
@@ -34,10 +37,13 @@ Copy the output of this command for the next step.
 ### 4. (On virtual machine) Setup SSH on the VM
 ```bash
 su -
-mkdir -p ~/.ssh
-chmod 700 ~/.ssh
-echo "<your-public-key-content>" >> ~/.ssh/authorized_keys
-chmod 600 ~/.ssh/authorized_keys
+cd /home/adibf
+mkdir -p .ssh
+chmod 700 .ssh
+echo "<your-public-key-content>" >> .ssh/authorized_keys
+chmod 600 .ssh/authorized_keys
+chown adibf:adibf .ssh
+chown adibf:adibf .ssh/authorized_keys
 
 nano /etc/ssh/sshd_config
 # Uncomment lines containing 'PubkeyAuthentication' and 'AuthorizedKeysFile'
